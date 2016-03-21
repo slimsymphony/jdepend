@@ -32,7 +32,7 @@ public class FileManagerTest extends JDependTestCase {
 
     public void testBuildDirectory() throws IOException {
         fileManager.addDirectory(getBuildDir());
-        assertEquals(43, fileManager.extractFiles().size());
+        assertEquals(22, fileManager.extractFiles().size());
     }
 
     public void testNonExistentDirectory() {
@@ -49,7 +49,7 @@ public class FileManagerTest extends JDependTestCase {
 
     public void testInvalidDirectory() {
 
-        String file = getTestDir() + getPackageSubDir() + "ExampleTest.java";
+        String file = getTestSrcDir() + getPackageSubDir() + "ExampleTest.java";
         
         try {
             

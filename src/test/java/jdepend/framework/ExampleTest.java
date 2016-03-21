@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  * @author Clarkware Consulting, Inc.
  */
 
-public class ExampleTest extends TestCase {
+public class ExampleTest extends JDependTestCase {
 
     private JDepend jdepend;
 
@@ -29,8 +29,8 @@ public class ExampleTest extends TestCase {
         super(name);
     }
 
-    protected void setUp() throws IOException {
-
+    protected void setUp(){
+    	super.setUp();
         jdependHomeDirectory = System.getProperty("jdepend.home");
         if (jdependHomeDirectory == null) {
             fail("Property 'jdepend.home' not defined");
@@ -41,10 +41,12 @@ public class ExampleTest extends TestCase {
         filter.addPackage("javax.*");
         jdepend = new JDepend(filter);
 
-        String classesDir = 
-            jdependHomeDirectory + File.separator + "build";
-
-        jdepend.addDirectory(classesDir);
+        try {
+        	jdepend.addDirectory(this.getBuildDir());
+        	jdepend.addDirectory(this.getTestBuildDir());
+        }catch(IOException e) {
+        	fail("add class dir failed.");
+        }
     }
 
     /**
@@ -54,7 +56,7 @@ public class ExampleTest extends TestCase {
     public void testOnePackageDistance() {
 
         double ideal = 0.0;
-        double tolerance = 0.8;
+        double tolerance = 0.9;
 
         jdepend.analyze();
 
@@ -124,11 +126,11 @@ public class ExampleTest extends TestCase {
         JavaPackage text = constraint.addPackage("jdepend.textui");
         JavaPackage xml = constraint.addPackage("jdepend.xmlui");
         JavaPackage swing = constraint.addPackage("jdepend.swingui");
-        JavaPackage orgjunitrunners = constraint.addPackage("orgjunitrunners");
-        JavaPackage jdependframeworkp2 = constraint.addPackage("jdependframeworkp2");
-        JavaPackage jdependframeworkp3 = constraint.addPackage("jdependframeworkp3");
-        JavaPackage jdependframeworkp1 = constraint.addPackage("jdependframeworkp1");
-        JavaPackage orgjunit = constraint.addPackage("orgjunit");
+        JavaPackage orgjunitrunners = constraint.addPackage("org.junit.runners");
+        JavaPackage jdependframeworkp2 = constraint.addPackage("jdepend.framework.p2");
+        JavaPackage jdependframeworkp3 = constraint.addPackage("jdepend.framework.p3");
+        JavaPackage jdependframeworkp1 = constraint.addPackage("jdepend.framework.p1");
+        JavaPackage orgjunit = constraint.addPackage("org.junit");
 
         framework.dependsUpon(junitframework);
         framework.dependsUpon(junitui);

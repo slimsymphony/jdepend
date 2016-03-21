@@ -13,8 +13,10 @@ public class JDependTestCase extends TestCase {
 
     private String homeDir;
     private String testDir;
+    private String testSrcDir;
     private String testDataDir;
     private String buildDir;
+    private String testBuildDir;
     private String packageSubDir;
     private String originalUserHome;
 
@@ -22,17 +24,24 @@ public class JDependTestCase extends TestCase {
     public JDependTestCase(String name) {
         super(name);
     }
-
+    
+    public void test() {
+    	assertEquals("true","true");
+    }
+    
     protected void setUp() {
 
         homeDir = System.getProperty("jdepend.home");
         if (homeDir == null) {
             fail("Property 'jdepend.home' not defined");
         }
-        homeDir = homeDir + File.separator;
-        testDir = homeDir + File.separator + "test" + File.separator;
-        testDataDir = testDir + "data" + File.separator;
-        buildDir = homeDir + "build" + File.separator;
+        if(!homeDir.endsWith(File.separator))
+        	homeDir += File.separator;
+        testDir = homeDir + "src" + File.separator + "test" + File.separator;
+        testSrcDir = testDir + "java" + File.separator;
+        testDataDir = testDir + "resources" + File.separator + "data" + File.separator;
+        buildDir = homeDir + "target" + File.separator + "classes" + File.separator;
+        testBuildDir = homeDir + "target" + File.separator + "test-classes" + File.separator;
         packageSubDir = "jdepend" + File.separator + 
                         "framework" + File.separator;
         originalUserHome = System.getProperty("user.home");
@@ -46,7 +55,11 @@ public class JDependTestCase extends TestCase {
         return homeDir;
     }
 
-    public String getTestDataDir() {
+    public String getTestSrcDir() {
+		return testSrcDir;
+	}
+
+	public String getTestDataDir() {
         return testDataDir;
     }
     
@@ -58,7 +71,11 @@ public class JDependTestCase extends TestCase {
         return buildDir;
     }
     
-    public String getPackageSubDir() {
+    public String getTestBuildDir() {
+		return testBuildDir;
+	}
+
+	public String getPackageSubDir() {
         return packageSubDir;
     }
 }

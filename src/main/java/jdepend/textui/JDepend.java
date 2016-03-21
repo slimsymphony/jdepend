@@ -30,7 +30,7 @@ public class JDepend {
      * Constructs a <code>JDepend</code> instance using standard output.
      */
     public JDepend() {
-        this(new PrintWriter(System.out));
+        this(new PrintWriter(System.err));
     }
 
     /**
